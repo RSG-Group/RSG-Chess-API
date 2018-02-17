@@ -1,7 +1,7 @@
 {
   "name": "rsg-chess",
   "version": "1.0.0",
-  "description": "Chess APIs based on RSG Chess",
+  "description": "Useful chess APIs ...for everyone",
   "main": "lib/index.js",
   "scripts": {
     "build": "webpack -p",
@@ -12,7 +12,7 @@
     "url": "git+ssh://git@github.com/RSG-Group/RSG-Chess-API.git"
   },
   "author": "RSG Group /Radi Cho/",
-  "license": "ISC",
+  "license": "Apache License 2.0",
   "bugs": {
     "url": "https://github.com/RSG-Group/RSG-Chess-API/issues"
   },
