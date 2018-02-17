@@ -15,6 +15,8 @@ function Game(promoCallback) {
 
   // the history of all turns
   this.turn = [];
+  // the current FEN status
+  this.FEN = this.gameToFEN();
   // the current game configuration as FEN
   this.FENboard = this.boardToFEN();
   // the history of all game configurations displayed using FEN
@@ -77,8 +79,10 @@ Game.prototype.moveSelected = function (
       this.board[y][x].x = x;
       this.board[y][x].y = y;
 
-      // check for threefold repetition
+      this.FEN = this.gameToFEN();
       this.FENboard = this.boardToFEN();
+      
+      // check for threefold repetition
       this.threefold.push(this.FENboard);
       if (selected.type === 'pawn' || piece) this.threefold = [];
       if(this.threefoldCheck()) checkmateCallback('D');
@@ -220,6 +224,12 @@ Game.prototype.threefoldCheck = function () {
   return false;
 }
 
+Game.prototype.pieceToAN = function(x, y) {
+  var xChars = 'abcdefgh';
+  return xChars.charAt(x) + (8 - y);
+}
+
+// Support FEN functions in the API
 Game.prototype.boardToFEN = function () {
   var board = this.board;
  
@@ -241,12 +251,6 @@ Game.prototype.boardToFEN = function () {
     FENboard += i < 7 ? '/' : '';
   }
  
-  /*
-    More information about the FEN notation:
-    https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
-    https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation
-  */
- 
   return FENboard;
 };
 
@@ -264,5 +268,86 @@ Game.prototype.halfmoveClock = function () {
 
   return count;
 }
+
+Game.prototype.activeColour = function () {
+  var activeColor =
+    turn.length &&
+    turn[turn.length - 1].color === 'W' ? 'b' : 'w';
+
+  return activeColor;
+}
+
+Game.prototype.castlingTarget = function () {
+  var possibleCastling = '';
+ 
+  var whiteKingMoved;
+  var blackKingMoved;
+  turn.some(function (turn) {
+    whiteKingMoved = turn.type === 'king' && turn.color === 'W';
+    blackKingMoved = turn.type === 'king' && turn.color === 'B';
+  });
+ 
+  [[7, 0], [0, 0], [7, 7], [0, 7]].forEach(function (props) {
+    var rookX = props[0];
+    var rookY = props[1];
+    var rook = board[rookY][rookX];
+ 
+    // Check rook on position
+    if (!rook || !rook.type === 'rook') return;
+    // Check rook hasn't moved
+    if (turn.some(function (ev) {
+      return ev.from.x === rookX && ev.from.y === rookY;
+    })) return;
+ 
+    var castlingSide = rookX === 0 ? 'q' : 'k';
+    possibleCastling += rookY === 0 ? castlingSide.toUpperCase() : castlingSide;
+  });
+ 
+  if (!possibleCastling) possibleCastling = '-';
+  return possibleCastling;
+}
+
+Game.prototype.enPassantTarget = function () {
+  var enPassantTarget = '';
+
+  if (turn.length) {
+    var ev = turn[turn.length - 1];
+    if (ev.color === 'W' && ev.to.y === 4){
+      enPassantTarget = this.pieceToAN(ev.to.x, ev.to.y + 1)
+    }
+    
+    if (ev.color === 'B' && ev.to.y === 3){
+      enPassantTarget = this.pieceToAN(ev.to.x, ev.to.y - 1)
+    }
+  }
+
+  if (!enPassantTarget) enPassantTarget = '-';
+  return enPassantTarget;
+}
+
+Game.prototype.gameToFEN = function () {
+  // Check the board configuration
+  FEN += this.boardToFEN();
+ 
+  // Find the active colour
+  FEN += ' ' + this.activeColour();
+  
+  // Check castling availability
+  FEN += ' ' + this.castlingTarget();
+ 
+  // Check the En-passant target
+  FEN += ' ' + this.enPassantTarget();
+
+  // Add the halfmove clock
+  FEN += ' ' + this.halfmoveClock();
+
+  /*
+    More information about the FEN notation:
+    https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
+    https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation
+  */
+ 
+  return FEN;
+};
 
 export default Game;
