@@ -350,4 +350,37 @@ Game.prototype.gameToFEN = function () {
   return FEN;
 };
 
+// Set up default game configuration
+Game.prototype.initializeGame = function() {
+  var defaultGame = new Game();
+
+  // Pawns:
+  for (var i = 0; i < 8; i++) {
+    defaultGame.piece('pawn', i, 6, 'W');
+    defaultGame.piece('pawn', i, 1, 'B');
+  }
+  
+  // Black figs:
+  defaultGame.piece('rook', 0, 0, 'B');
+  defaultGame.piece('knight', 1, 0, 'B');
+  defaultGame.piece('bishop', 2, 0, 'B');
+  defaultGame.piece('queen', 3, 0, 'B');
+  defaultGame.piece('king', 4, 0, 'B');
+  defaultGame.piece('bishop', 5, 0, 'B');
+  defaultGame.piece('knight', 6, 0, 'B');
+  defaultGame.piece('rook', 7, 0, 'B');
+  
+  // White figs:
+  defaultGame.piece('rook', 0, 7, 'W');
+  defaultGame.piece('knight', 1, 7, 'W');
+  defaultGame.piece('bishop', 2, 7, 'W');
+  defaultGame.piece('queen', 3, 7, 'W');
+  defaultGame.piece('king', 4, 7, 'W');
+  defaultGame.piece('bishop', 5, 7, 'W');
+  defaultGame.piece('knight', 6, 7, 'W');
+  defaultGame.piece('rook', 7, 7, 'W');
+
+  return defaultGame;
+}
+
 export default Game;
