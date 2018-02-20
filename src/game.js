@@ -16,9 +16,9 @@ function Game(promoCallback) {
   // the history of all turns
   this.turn = [];
   // the current FEN status
-  this.FEN = this.gameToFEN();
+  this.FEN = [];
   // the current game configuration as FEN
-  this.FENboard = this.boardToFEN();
+  this.FENboard = [];
   // the history of all game configurations displayed using FEN
   this.threefold = [];
 }
@@ -26,6 +26,9 @@ function Game(promoCallback) {
 Game.prototype.piece = function (type, x, y, color) {
   var piece = Piece[type](x, y, color, this);
   this.board[y][x] = piece;
+
+  this.FEN = this.gameToFEN();
+  this.FENboard = this.boardToFEN();
 };
 
 Game.prototype.moveSelected = function (
