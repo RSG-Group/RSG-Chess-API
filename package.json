@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "webpack -p",
-    "test": "echo \"No tests specified\""
+    "test": "node ./lib/test.js"
   },
   "repository": {
     "type": "git",
