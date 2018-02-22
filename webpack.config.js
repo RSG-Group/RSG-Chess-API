@@ -3,14 +3,16 @@
 var webpack = require('webpack');
 var path = require('path');
 var libraryName = 'rsg-chess';
-var outputFile = 'index.js';
 
 var config = {
-  entry: __dirname + '/src/index.js',
+  entry:{
+    index: __dirname + '/src/index.js',
+    test: __dirname + '/test/index.js',
+  },
   devtool: 'source-map',
   output: {
     path: __dirname + '/lib',
-    filename: outputFile,
+    filename: '[name].js',
     library: libraryName,
     libraryTarget: 'umd',
     umdNamedDefine: true
