@@ -273,6 +273,7 @@ Game.prototype.halfmoveClock = function () {
 }
 
 Game.prototype.activeColour = function () {
+  var turn = this.turn;
   var activeColor =
     turn.length &&
     turn[turn.length - 1].color === 'W' ? 'b' : 'w';
@@ -281,6 +282,9 @@ Game.prototype.activeColour = function () {
 }
 
 Game.prototype.castlingTarget = function () {
+  var board = this.board,
+      turn = this.turn;
+      
   var possibleCastling = '';
  
   var whiteKingMoved;
@@ -311,6 +315,7 @@ Game.prototype.castlingTarget = function () {
 }
 
 Game.prototype.enPassantTarget = function () {
+  var turn = this.turn;
   var enPassantTarget = '';
 
   if (turn.length) {
@@ -329,6 +334,8 @@ Game.prototype.enPassantTarget = function () {
 }
 
 Game.prototype.gameToFEN = function () {
+  var FEN = '';
+
   // Check the board configuration
   FEN += this.boardToFEN();
  
