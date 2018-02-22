@@ -289,7 +289,7 @@ Game.prototype.castlingTarget = function () {
  
   var whiteKingMoved;
   var blackKingMoved;
-  turn.some(function (turn) {
+  turn.forEach(function (turn) {
     whiteKingMoved = turn.type === 'king' && turn.color === 'W';
     blackKingMoved = turn.type === 'king' && turn.color === 'B';
   });
@@ -333,6 +333,15 @@ Game.prototype.enPassantTarget = function () {
   return enPassantTarget;
 }
 
+Game.prototype.fullmoveCount = function() {
+  var count = 1;
+  this.turn.forEach(function(ev){
+    if (ev.color === 'B') count += 1;
+  });
+
+  return count;
+}
+
 Game.prototype.gameToFEN = function () {
   var FEN = '';
 
@@ -350,6 +359,9 @@ Game.prototype.gameToFEN = function () {
 
   // Add the halfmove clock
   FEN += ' ' + this.halfmoveClock();
+
+  // Add the fullmove number
+  FEN += ' ' + this.fullmoveCount();
 
   /*
     More information about the FEN notation:
