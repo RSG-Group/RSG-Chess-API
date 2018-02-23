@@ -1,6 +1,6 @@
 {
   "name": "rsg-chess",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Useful chess APIs ...for everyone",
   "main": "lib/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "url": "git+ssh://git@github.com/RSG-Group/RSG-Chess-API.git"
   },
   "author": "RSG Group /Radi Cho/",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/RSG-Group/RSG-Chess-API/issues"
   },
@@ -27,5 +27,16 @@
     "babel-preset-react": "^6.24.1",
     "eslint-loader": "^1.9.0",
     "webpack": "^3.10.0"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "keywords": [
+    "chess",
+    "graphics",
+    "algorythm",
+    "AI",
+    "API"
+  ]
 }
