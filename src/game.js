@@ -288,17 +288,29 @@ Game.prototype.activeColour = function () {
 Game.prototype.castlingTarget = function () {
   var board = this.board
   var turn = this.turn
-  var possibleCastling = '';
+  var possibleCastling = ''
+
+  var whiteKingMoved
+  var blackKingMoved
+  turn.forEach(function (turn) {
+    whiteKingMoved = turn.type === 'king' && turn.color === 'W'
+    blackKingMoved = turn.type === 'king' && turn.color === 'B'
+  });
 
   [[7, 0], [0, 0], [7, 7], [0, 7]].forEach(function (props) {
     var rookX = props[0]
     var rookY = props[1]
     var rook = board[rookY][rookX]
 
+    if (rookY === 7 && whiteKingMoved) return
+    if (rookY === 0 && blackKingMoved) return
+
     // Check rook on position
     if (!rook || !rook.type === 'rook') return
+
     // Check rook hasn't moved
     if (turn.some(function (ev) {
+      if (ev.type !== 'rook') return false
       return ev.from.x === rookX && ev.from.y === rookY
     })) return
 
