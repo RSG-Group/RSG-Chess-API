@@ -7,42 +7,29 @@ const Chess_AI = function (game){
   // best values /bestMove & bestValue/
   var bestMove = null;
   var bestValue = -9999;
-  for (var i = 0; i < 8; i++) {
-    for (var j = 0; j < 8; j++) {
-      board[i][j] && 
-      board[i][j].getValidMoves()
-      .forEach(function(ev, k){
-        // needed variables
-        var piece = board[i][j]
-        var from = { x: piece.x, y: piece.y };
-        var movePiece = board[ev.y][ev.x] ? {
-          piece: board[ev.y][ev.x],
-          from: { x: ev.x, y: ev.y },
-          to: null
-        } : null;
-        // check for en-passant, and already captured pieces /movePiece/
-        if(ev.movePiece) movePiece = ev.movePiece;
-        if(movePiece) game.simpleMovePiece(movePiece.piece, movePiece.from, movePiece.to);
-        // simulate the current move from .getValidMoves() array /ev/
-        game.simpleMovePiece(piece, from, { x: ev.x, y: ev.y });
-        // evulate the board and get the best move /boardValue > bestValue -> bestMove = {.../
-        var boardValue = -evaluateBoard(board);
-        if (
-          boardValue > bestValue &&
-          board[ev.y][ev.x].color === 'B'
-        ) {
-          bestValue = boardValue;
-          bestMove = {
-            from: {x: j, y: i},
-            to: ev
-          };
-        }
-        // return the current move /ev/
-        game.simpleMovePiece(piece, { x: ev.x, y: ev.y }, from);
-        if(movePiece) game.simpleMovePiece(movePiece.piece, movePiece.to, movePiece.from);
-      })
+  game.allMoves().forEach(function(ev){
+    var from = ev.from, to = ev.to, piece = board[from.y][from.x];
+    var movePiece = board[to.y][to.x] ? {
+      piece: board[to.y][to.x],
+      from: { x: to.x, y: to.y },
+      to: null
+    } : null;
+
+    // check for en-passant, and already captured pieces /movePiece/
+    if(to.movePiece) movePiece = to.movePiece;
+    if(movePiece) game.simpleMovePiece(movePiece.piece, movePiece.from, movePiece.to);
+    // simulate the current move from .getValidMoves() array /to/
+    game.simpleMovePiece(piece, from, { x: to.x, y: to.y });
+    var boardValue = -evaluateBoard(board);
+    if (boardValue > bestValue && board[to.y][to.x].color === 'B') {
+      bestValue = boardValue;
+      bestMove = { from: from, to: to };
     }
-  }
+
+    // return the current move /ev/
+    game.simpleMovePiece(piece, { x: to.x, y: to.y }, from);
+    if(movePiece) game.simpleMovePiece(movePiece.piece, movePiece.to, movePiece.from);
+  })
   // return the best move
   return bestMove;
 };

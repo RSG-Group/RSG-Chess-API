@@ -405,10 +405,10 @@ Game.prototype.initializeGame = function() {
   return defaultGame;
 }
 
-Game.prototype.all_moves = function() {
+Game.prototype.allMoves = function() {
   var board = this.board;
   var
-    all_moves = [],
+    allMoves = [],
     activeColour = this.activeColour().toUpperCase();
 
   for (var i = 0; i < 8; i++) {
@@ -416,7 +416,7 @@ Game.prototype.all_moves = function() {
       if (board[i][j] && board[i][j].color === activeColour) {
         var validMoves = board[i][j].getValidMoves();
         validMoves.forEach(function(ev){
-          all_moves.push({
+          allMoves.push({
             color: board[i][j].color,
             from: {x: j, y: i},
             to: ev,
@@ -427,7 +427,7 @@ Game.prototype.all_moves = function() {
     }
   }
 
-  return all_moves;
+  return allMoves;
 }
 
 export default Game;
