@@ -405,4 +405,29 @@ Game.prototype.initializeGame = function() {
   return defaultGame;
 }
 
+Game.prototype.all_moves = function() {
+  var board = this.board;
+  var
+    all_moves = [],
+    activeColour = this.activeColour().toUpperCase();
+
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      if (board[i][j] && board[i][j].color === activeColour) {
+        var validMoves = board[i][j].getValidMoves();
+        validMoves.forEach(function(ev){
+          all_moves.push({
+            color: board[i][j].color,
+            from: {x: j, y: i},
+            to: ev,
+            FENname: board[i][j].FENname
+          });
+        })
+      }
+    }
+  }
+
+  return all_moves;
+}
+
 export default Game;
