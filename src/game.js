@@ -191,6 +191,29 @@ Game.prototype.simpleMovePiece = function (piece, from, to) {
   if (from) board[from.y][from.x] = null
 }
 
+Game.prototype.simpleMove = function (move) {
+  var self = this
+  var board = self.board
+  var from = move.from
+  var to = move.to
+  var piece = board[from.y][from.x]
+  var movePiece = board[to.y][to.x] ? {
+    piece: board[to.y][to.x],
+    from: { x: to.x, y: to.y },
+    to: null
+  } : null
+
+  if (to.movePiece) movePiece = to.movePiece
+  if (movePiece) self.simpleMovePiece(movePiece.piece, movePiece.from, movePiece.to)
+  self.simpleMovePiece(piece, from, { x: to.x, y: to.y })
+
+  return function () {
+    // return the current move /ev/
+    self.simpleMovePiece(piece, { x: to.x, y: to.y }, from)
+    if (movePiece) self.simpleMovePiece(movePiece.piece, movePiece.to, movePiece.from)
+  }
+}
+
 Game.prototype.warning = function (color) {
   var result = false
   var king

@@ -8,5 +8,4 @@ game.moveSelected(
 
 const bestAI = new AI(game)
 
-console.log(game.allMoves().length)
 console.log(bestAI)

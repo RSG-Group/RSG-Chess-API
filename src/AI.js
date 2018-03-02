@@ -4,32 +4,19 @@
 
 const ChessAI = function (game) {
   var board = game.board
-  // best values /bestMove & bestValue/
   var bestMove = null
   var bestValue = -9999
   game.allMoves().forEach(function (ev) {
-    var from = ev.from
-    var to = ev.to
-    var piece = board[from.y][from.x]
-    var movePiece = board[to.y][to.x] ? {
-      piece: board[to.y][to.x],
-      from: { x: to.x, y: to.y },
-      to: null
-    } : null
-    // check for en-passant, and already captured pieces /movePiece/
-    if (to.movePiece) movePiece = to.movePiece
-    if (movePiece) game.simpleMovePiece(movePiece.piece, movePiece.from, movePiece.to)
-    // simulate the current move from .getValidMoves() array /to/
-    game.simpleMovePiece(piece, from, { x: to.x, y: to.y })
+    // Simulate the move
+    var undo = game.simpleMove(ev)
     var boardValue = -evaluateBoard(board)
-    if (boardValue > bestValue && board[to.y][to.x].color === 'B') {
+    if (boardValue > bestValue && board[ev.to.y][ev.to.x].color === 'B') {
       bestValue = boardValue
-      bestMove = { from: from, to: to }
+      bestMove = { from: ev.from, to: ev.to }
     }
 
-    // return the current move /ev/
-    game.simpleMovePiece(piece, { x: to.x, y: to.y }, from)
-    if (movePiece) game.simpleMovePiece(movePiece.piece, movePiece.to, movePiece.from)
+    // Undo the simulated move
+    undo()
   })
   // return the best move
   return bestMove
