@@ -2,24 +2,47 @@
 // RSG Chess
 // Licensed under Apache 2.0 LICENSE
 
-const ChessAI = function (game) {
-  var board = game.board
-  var bestMove = null
+const ChessAI = function (depth, game, isMaximisingPlayer) {
+  var allMoves = game.allMoves()
   var bestValue = -9999
-  game.allMoves().forEach(function (ev) {
-    // Simulate the move
-    var undo = game.simpleMove(ev)
-    var boardValue = -evaluateBoard(board)
-    if (boardValue > bestValue && board[ev.to.y][ev.to.x].color === 'B') {
-      bestValue = boardValue
-      bestMove = { from: ev.from, to: ev.to }
-    }
+  var bestMove
 
-    // Undo the simulated move
+  for (var i = 0; i < allMoves.length; i++) {
+    var newGameMove = allMoves[i]
+    var undo = game.simpleMove(newGameMove)
+    var boradValue = minimax(depth - 1, game, !isMaximisingPlayer)
     undo()
-  })
-  // return the best move
+    if (boradValue >= bestValue) {
+      bestValue = boradValue
+      bestMove = newGameMove
+    }
+  }
   return bestMove
+}
+
+var minimax = function (depth, game, isMaximisingPlayer) {
+  if (depth === 0) {
+    return -evaluateBoard(game.board)
+  }
+
+  var allMoves = game.allMoves()
+  if (isMaximisingPlayer) {
+    let bestValue = -9999
+    for (let i = 0; i < allMoves.length; i++) {
+      let undo = game.simpleMove(allMoves[i])
+      bestValue = Math.max(bestValue, minimax(depth - 1, game, !isMaximisingPlayer))
+      undo()
+    }
+    return bestValue
+  } else {
+    let bestValue = 9999
+    for (let i = 0; i < allMoves.length; i++) {
+      let undo = game.simpleMove(allMoves[i])
+      bestValue = Math.min(bestValue, minimax(depth - 1, game, !isMaximisingPlayer))
+      undo()
+    }
+    return bestValue
+  }
 }
 
 var evaluateBoard = function (board) {
