@@ -10,7 +10,7 @@ const ChessAI = function (depth, game, isMaximisingPlayer) {
   for (var i = 0; i < allMoves.length; i++) {
     var newGameMove = allMoves[i]
     var undo = game.simpleMove(newGameMove)
-    var boradValue = minimax(depth - 1, game, !isMaximisingPlayer)
+    var boradValue = minimax(depth - 1, game, -10000, 10000, !isMaximisingPlayer)
     undo()
     if (boradValue >= bestValue) {
       bestValue = boradValue
@@ -20,7 +20,7 @@ const ChessAI = function (depth, game, isMaximisingPlayer) {
   return bestMove
 }
 
-var minimax = function (depth, game, isMaximisingPlayer) {
+var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
   if (depth === 0) {
     return -evaluateBoard(game.board)
   }
@@ -30,16 +30,24 @@ var minimax = function (depth, game, isMaximisingPlayer) {
     let bestValue = -9999
     for (let i = 0; i < allMoves.length; i++) {
       let undo = game.simpleMove(allMoves[i])
-      bestValue = Math.max(bestValue, minimax(depth - 1, game, !isMaximisingPlayer))
+      bestValue = Math.max(bestValue, minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer))
       undo()
+      alpha = Math.max(alpha, bestValue)
+      if (beta <= alpha) {
+        return bestValue
+      }
     }
     return bestValue
   } else {
     let bestValue = 9999
     for (let i = 0; i < allMoves.length; i++) {
       let undo = game.simpleMove(allMoves[i])
-      bestValue = Math.min(bestValue, minimax(depth - 1, game, !isMaximisingPlayer))
+      bestValue = Math.min(bestValue, minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer))
       undo()
+      beta = Math.min(beta, bestValue)
+      if (beta <= alpha) {
+        return bestValue
+      }
     }
     return bestValue
   }
