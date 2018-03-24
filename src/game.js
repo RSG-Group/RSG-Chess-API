@@ -197,11 +197,21 @@ Game.prototype.simpleMove = function (move) {
   var from = move.from
   var to = move.to
   var piece = board[from.y][from.x]
+  var capturedPiece = this.board[to.y][to.x] ? this.board[to.y][to.x] : null
   var movePiece = board[to.y][to.x] ? {
     piece: board[to.y][to.x],
     from: { x: to.x, y: to.y },
     to: null
   } : null
+
+  this.turn.push({
+    from: from,
+    to: { x: to.x, y: to.y },
+    color: move.color,
+    type: piece.type,
+    piece: capturedPiece,
+    movePiece: movePiece
+  })
 
   if (to.movePiece) movePiece = to.movePiece
   if (movePiece) self.simpleMovePiece(movePiece.piece, movePiece.from, movePiece.to)
@@ -209,8 +219,10 @@ Game.prototype.simpleMove = function (move) {
 
   return function () {
     // return the current move /ev/
-    self.simpleMovePiece(piece, { x: to.x, y: to.y }, from)
     if (movePiece) self.simpleMovePiece(movePiece.piece, movePiece.to, movePiece.from)
+    self.simpleMovePiece(piece, { x: to.x, y: to.y }, from)
+    if (capturedPiece) board[to.y][to.x] = capturedPiece
+    self.turn.pop()
   }
 }
 
