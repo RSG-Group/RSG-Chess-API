@@ -452,7 +452,7 @@ Game.prototype.moveSelected = function (
       if (selected.type === 'pawn') {
         if ((selected.color === 'W' && y === 0) || (selected.color === 'B' && y === 7)) {
           if (promotionCallback) {
-            !playAgainstAI && selected.color === 'B'
+            !playAgainstAI && comingAI && selected.color === 'B'
               ? this.promotePawn(selected, x, y, selected.color, 'queen')
               : promotionCallback(selected, x, y, selected.color)
           }
