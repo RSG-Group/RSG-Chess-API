@@ -32,7 +32,7 @@ Game.prototype.piece = function (type, x, y, color) {
 }
 
 Game.prototype.moveSelected = function (
-  selected, to, promotionCallback, checkmateCallback, playAgainstAI, simulate
+  selected, to, promotionCallback, checkmateCallback, playAgainstAI, comingAI, simulate
 ) {
   var x = to.x
   var y = to.y
@@ -100,7 +100,7 @@ Game.prototype.moveSelected = function (
       if (selected.type === 'pawn') {
         if ((selected.color === 'W' && y === 0) || (selected.color === 'B' && y === 7)) {
           if (promotionCallback) {
-            !playAgainstAI && selected.color === 'B'
+            !playAgainstAI && comingAI && selected.color === 'B'
               ? this.promotePawn(selected, x, y, selected.color, 'queen')
               : promotionCallback(selected, x, y, selected.color)
           }
@@ -120,6 +120,7 @@ Game.prototype.moveSelected = function (
           promotionCallback,
           checkmateCallback,
           false,
+          true,
           simulate
         )
       }
