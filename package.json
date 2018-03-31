@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/RSG-Group/RSG-Chess-API.git"
   },
-  "author": "RSG Group /Radi Cho/",
+  "author": "Radi Cho /RSG Group/",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/RSG-Group/RSG-Chess-API/issues"
@@ -42,8 +42,8 @@
   "keywords": [
     "chess",
     "graphics",
-    "algorythm",
     "AI",
-    "API"
+    "API",
+    "algorythm"
   ]
 }
