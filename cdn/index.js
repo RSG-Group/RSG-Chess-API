@@ -465,7 +465,7 @@ Game.prototype.moveSelected = function (
 
       // Play AI
       if (playAgainstAI) {
-        var bestMove = ChessAI(this)
+        var bestMove = ChessAI(playAgainstAI.depth, this, false)
         this.moveSelected(
           this.board[bestMove.from.y][bestMove.from.x],
           bestMove.to,
