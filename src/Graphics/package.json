@@ -1,6 +1,6 @@
 {
   "name": "rsg-chess-graphics",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Beautiful chess graphics ...for everyone",
   "main": "js/scripts.min.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "lint": "node_modules/.bin/eslint ./js/"
   },
   "author": "/Radi Cho/ RSG",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "dependencies": {
     "classnames": "^2.2.5",
     "eslint": "^4.18.1",
@@ -19,6 +19,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "lodash": "^4.17.4",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.2.0"
