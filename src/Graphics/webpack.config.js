@@ -1,22 +1,34 @@
-var debug = process.env.NODE_ENV !== "production";
-var webpack = require('webpack');
+// webpack.config.js
+/* eslint-disable */
 
-module.exports = {
-  context: __dirname,
-  devtool: debug ? "inline-sourcemap" : null,
-  entry: "./js/scripts.js",
+var webpack = require('webpack');
+var path = require('path');
+var libraryName = 'rsg-chess-graphics';
+
+var config = {
+  entry:{
+    scripts: __dirname + '/js/scripts.js'
+  },
+  devtool: 'source-map',
   output: {
-    path: __dirname + "/js",
-    filename: "scripts.min.js"
+    path: __dirname + '/js',
+    filename: '[name].min.js',
+    library: libraryName,
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+      {
+        test: /(\.jsx|\.js)$/,
+        loader: 'babel-loader',
+        exclude: /(node_modules|bower_components)/
+      }
     ]
   },
-  plugins: debug ? [] : [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: true, sourcemap: false }),
-  ],
-}
+  resolve: {
+    extensions: ['.js']
+  }
+};
+
+module.exports = config;
