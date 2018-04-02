@@ -1,6 +1,6 @@
 {
   "name": "rsg-chess-graphics",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Beautiful chess graphics ...for everyone",
   "main": "js/scripts.min.js",
   "scripts": {

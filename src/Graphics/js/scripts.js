@@ -35,7 +35,7 @@ const ChessTable = (props) => {
   const mainTable = {
     cursor: 'pointer',
     border: '1px solid gray',
-    align: 'center',
+    textAlign: 'center',
     width: props.boardWidth,
     height: props.boardHeight,
     fontSize: props.pieceSize,
@@ -84,41 +84,39 @@ const ChessTable = (props) => {
 
   // render graphics
   return (
-    <div>
-      <table className="rsg-chess-table" style={mainTable} {...omit(props, omitProps)}>
-        <tbody>
-          {
-            board.map((rank, i) => (
-              <tr key={i}>
-                {
-                  rank.map((piece, j) => (
-                    <td key={j}
-                      onClick={onClick.bind(self, j, i)}
-                      className={classNames({
-                        selected: selected && selected === piece,
-                        validMoves: showValidMoves && selected && find(validMoves, { x: j, y: i }),
-                        rotated: rotated && piece && piece.color === 'B'
-                      })}
+    <table className="rsg-chess-table" style={mainTable} {...omit(props, omitProps)}>
+      <tbody>
+        {
+          board.map((rank, i) => (
+            <tr key={i}>
+              {
+                rank.map((piece, j) => (
+                  <td key={j}
+                    onClick={onClick.bind(self, j, i)}
+                    className={classNames({
+                      selected: selected && selected === piece,
+                      validMoves: showValidMoves && selected && find(validMoves, { x: j, y: i }),
+                      rotated: rotated && piece && piece.color === 'B'
+                    })}
 
-                      style={{
-                        ...((i % 2 === 0 && j % 2 !== 0) || (i % 2 !== 0 && j % 2 === 0)) && blackTds,
-                        ...((i % 2 === 0 && j % 2 === 0) || (i % 2 !== 0 && j % 2 !== 0)) && whiteTds,
-                        ...mainTd,
-                        ...rotated && piece && piece.color === 'B' && rotatedStyles,
-                        ...showValidMoves && selected && find(validMoves, { x: j, y: i }) && validMoveStyles,
-                        ...selected && selected === piece && selectedStyles
-                      }}
-                    >
-                      {piece && piece.char}
-                    </td>
-                  ))
-                }
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+                    style={{
+                      ...((i % 2 === 0 && j % 2 !== 0) || (i % 2 !== 0 && j % 2 === 0)) && blackTds,
+                      ...((i % 2 === 0 && j % 2 === 0) || (i % 2 !== 0 && j % 2 !== 0)) && whiteTds,
+                      ...mainTd,
+                      ...rotated && piece && piece.color === 'B' && rotatedStyles,
+                      ...showValidMoves && selected && find(validMoves, { x: j, y: i }) && validMoveStyles,
+                      ...selected && selected === piece && selectedStyles
+                    }}
+                  >
+                    {piece && piece.char}
+                  </td>
+                ))
+              }
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
   )
 }
 
