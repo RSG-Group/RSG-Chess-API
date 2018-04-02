@@ -1,6 +1,6 @@
 {
   "name": "rsg-chess",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Useful chess APIs ...for everyone",
   "main": "lib/index.js",
   "scripts": {
