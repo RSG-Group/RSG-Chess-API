@@ -47,7 +47,9 @@ const App = () => {
   boardWidth: string, // the board width (in px, %, em, inches, cm, ect.)
   boardHeight: string, // the board height (in px, %, em, inches, cm, ect.)
   pieceSize: string, // font-size for all pieces on the board
-  tdTransition: string // specific transition for all td elements (default: 'background-color 355ms linear, color 360ms ease-in')
+  tdTransition: string, // specific transition for all td elements (default: 'background-color 355ms linear, color 360ms ease-in')
+  whiteColor: string, // the text color for the white pieces
+  blackColor: string // the text color for the black pieces
 ```
 
 ### This project is created by [Radi Cho](https://github.com/radi-cho), published by [RSG Group](https://github.com/RSG-Group) and licensed under [Apache 2.0 LICENSE](https://github.com/RSG-Group/Chess/blob/master/LICENSE)

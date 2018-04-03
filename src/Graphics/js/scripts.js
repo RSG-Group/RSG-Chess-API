@@ -29,7 +29,9 @@ const ChessTable = (props) => {
     'boardWidth',
     'boardHeight',
     'pieceSize',
-    'tdTransition'
+    'tdTransition',
+    'whiteColor',
+    'blackColor'
   ]
 
   const mainTable = {
@@ -46,8 +48,6 @@ const ChessTable = (props) => {
     MozUserSelect: 'none',
     msUserSelect: 'none',
     ...props.style
-    // width: 12.5%;
-    // height: 12.5%;
   }
 
   const mainTd = {
@@ -75,11 +75,13 @@ const ChessTable = (props) => {
   }
 
   const whiteTds = {
-    background: props.whiteCells
+    background: props.whiteCells,
+    color: props.whiteColor
   }
 
   const blackTds = {
-    background: props.blackCells
+    background: props.blackCells,
+    color: props.blackColor
   }
 
   // render graphics
@@ -122,12 +124,12 @@ const ChessTable = (props) => {
 
 // validate props
 ChessTable.propTypes = {
+  self: PropTypes.any,
   board: PropTypes.array,
   selected: PropTypes.object,
   rotated: PropTypes.bool,
   showValidMoves: PropTypes.bool,
   onClick: PropTypes.func,
-  self: PropTypes.any,
   validBG: PropTypes.string,
   selectedBG: PropTypes.string,
   selectedColor: PropTypes.string,
@@ -136,7 +138,9 @@ ChessTable.propTypes = {
   boardWidth: PropTypes.string,
   boardHeight: PropTypes.string,
   pieceSize: PropTypes.string,
-  tdTransition: PropTypes.string
+  tdTransition: PropTypes.string,
+  whiteColor: PropTypes.string,
+  blackColor: PropTypes.string
 }
 
 // set default props
@@ -152,7 +156,9 @@ ChessTable.defaultProps = {
   boardWidth: '500px',
   boardHeight: '500px',
   pieceSize: '40px',
-  tdTransition: 'background-color 355ms linear, color 360ms ease-in'
+  tdTransition: 'background-color 355ms linear, color 360ms ease-in',
+  whiteColor: 'black',
+  blackColor: 'black'
 }
 
 export default ChessTable
