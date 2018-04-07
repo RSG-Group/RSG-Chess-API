@@ -457,7 +457,7 @@ Game.prototype.allMoves = function () {
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
       if (board[i][j] && board[i][j].color === activeColour) {
-        var validMoves = board[i][j].getValidMoves()
+        var validMoves = board[i][j].getValidMoves(true)
         validMoves.forEach(function (ev) {
           allMoves.push({
             color: board[i][j].color,
