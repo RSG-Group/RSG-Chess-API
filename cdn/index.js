@@ -825,7 +825,20 @@ Game.prototype.allMoves = function () {
   return allMoves
 }
 
-var ChessAI = function (depth, game, isMaximisingPlayer) {
+var ChessAI = function (depth, gameState, isMaximisingPlayer) {
+  // Clone the gameState to access all game associated methods.
+  // This usually doesn't make sense, but sometimes you cannot post functions to a backend or a web-worker
+  // and that's why we're touching the game methods from new game configuration intead from the passed argument.
+  // So if you pass {board: [myBoard], turn:[myTurn],...} for the game argument it will actually work!
+  // Already described here: https://github.com/RSG-Group/Chess/issues/8#issuecomment-381245794
+  var game = Game.prototype.initializeGame()
+  game.board = gameState.board
+  game.turn = gameState.turn
+  game.threefold = gameState.threefold
+  game.FEN = gameState.FEN
+  game.FENboard = gameState.FENboard
+
+  // Start looping and simulating all valid moves
   var allMoves = game.allMoves()
   var bestValue = -9999
   var bestMove

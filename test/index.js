@@ -6,6 +6,6 @@ game.moveSelected(
   game.board[6][0], { y: 5, x: 0 }, () => {}, () => {}, false, false
 )
 
-const bestAI = new AI(5, game, true)
+const bestAI = new AI(4, game, true)
 
 console.log(bestAI)
