@@ -11,7 +11,18 @@ const ChessAI = function (depth, gameState, isMaximisingPlayer) {
   // So if you pass {board: [myBoard], turn:[myTurn],...} for the game argument it will actually work!
   // Already described here: https://github.com/RSG-Group/Chess/issues/8#issuecomment-381245794
   var game = Game.prototype.initializeGame()
-  game.board = gameState.board
+
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      if (gameState.board[i][j]) {
+        let currentCell = gameState.board[i][j]
+        game.piece(currentCell.type, j, i, currentCell.color)
+      } else {
+        game.board[i][j] = null
+      }
+    }
+  }
+
   game.turn = gameState.turn
   game.threefold = gameState.threefold
   game.FEN = gameState.FEN
