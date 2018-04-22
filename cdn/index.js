@@ -452,7 +452,7 @@ Game.prototype.moveSelected = function (
       if (selected.type === 'pawn') {
         if ((selected.color === 'W' && y === 0) || (selected.color === 'B' && y === 7)) {
           if (promotionCallback) {
-            if (!playAgainstAI && playAgainstAI.comingAI && selected.color === 'B') {
+            if (playAgainstAI && !playAgainstAI.mode && playAgainstAI.comingAI && selected.color === 'B') {
               playAgainstAI.customAIPromotion
                 ? playAgainstAI.customAIPromotion()
                 : this.promotePawn(selected, x, y, selected.color, 'queen')
@@ -468,7 +468,7 @@ Game.prototype.moveSelected = function (
       if (checkmateValue) checkmateCallback(checkmateValue)
 
       // Play AI
-      if (playAgainstAI && playAgainstAI.move) {
+      if (playAgainstAI && playAgainstAI.mode && playAgainstAI.move) {
         if (playAgainstAI.customAIMovement) {
           playAgainstAI.customAIMovement()
         } else {
