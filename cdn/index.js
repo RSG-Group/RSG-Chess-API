@@ -384,7 +384,7 @@ Game.prototype.piece = function (type, x, y, color) {
 }
 
 Game.prototype.moveSelected = function (
-  selected, to, promotionCallback, checkmateCallback, playAgainstAI, comingAI, simulate
+  selected, to, promotionCallback, checkmateCallback, playAgainstAI, simulate
 ) {
   var x = to.x
   var y = to.y
@@ -452,9 +452,13 @@ Game.prototype.moveSelected = function (
       if (selected.type === 'pawn') {
         if ((selected.color === 'W' && y === 0) || (selected.color === 'B' && y === 7)) {
           if (promotionCallback) {
-            !playAgainstAI && comingAI && selected.color === 'B'
-              ? this.promotePawn(selected, x, y, selected.color, 'queen')
-              : promotionCallback(selected, x, y, selected.color)
+            if (playAgainstAI && !playAgainstAI.mode && playAgainstAI.comingAI && selected.color === 'B') {
+              playAgainstAI.customAIPromotion
+                ? playAgainstAI.customAIPromotion()
+                : this.promotePawn(selected, x, y, selected.color, 'queen')
+            } else {
+              promotionCallback(selected, x, y, selected.color)
+            }
           }
         }
       };
@@ -464,17 +468,21 @@ Game.prototype.moveSelected = function (
       if (checkmateValue) checkmateCallback(checkmateValue)
 
       // Play AI
-      if (playAgainstAI) {
-        var bestMove = ChessAI(playAgainstAI.depth, this, false)
-        this.moveSelected(
-          this.board[bestMove.from.y][bestMove.from.x],
-          bestMove.to,
-          promotionCallback,
-          checkmateCallback,
-          false,
-          true,
-          simulate
-        )
+      if (playAgainstAI && playAgainstAI.mode && playAgainstAI.move) {
+        if (playAgainstAI.customAIMovement) {
+          playAgainstAI.customAIMovement()
+        } else {
+          var bestMove = ChessAI(playAgainstAI.depth, this, false)
+          this.moveSelected(
+            this.board[bestMove.from.y][bestMove.from.x],
+            bestMove.to,
+            promotionCallback,
+            checkmateCallback,
+            false,
+            true,
+            simulate
+          )
+        }
       }
       // end
     }
@@ -832,7 +840,18 @@ var ChessAI = function (depth, gameState, isMaximisingPlayer) {
   // So if you pass {board: [myBoard], turn:[myTurn],...} for the game argument it will actually work!
   // Already described here: https://github.com/RSG-Group/Chess/issues/8#issuecomment-381245794
   var game = Game.prototype.initializeGame()
-  game.board = gameState.board
+
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      if (gameState.board[i][j]) {
+        var currentCell = gameState.board[i][j]
+        game.piece(currentCell.type, j, i, currentCell.color)
+      } else {
+        game.board[i][j] = null
+      }
+    }
+  }
+
   game.turn = gameState.turn
   game.threefold = gameState.threefold
   game.FEN = gameState.FEN
