@@ -33,9 +33,11 @@ game.moveSelected(
 var game = RSGChess.Game.prototype.initializeGame();
 // RSGChess is a global variable
 game.moveSelected(
-  game.board[6][0], { y: 5, x: 0 }, () => {}, () => {}, false, false
+  game.board[6][0], { y: 5, x: 0 }, () => {}, () => {}, false
 )
 ```
+
+### [Releases and changelog](https://github.com/RSG-Group/RSG-Chess-API/releases)
 
 # Supported functions
 
@@ -43,7 +45,7 @@ game.moveSelected(
 - `new Game (promoCallback)`
 - `Game.prototype.initializeGame`
 - `Game.prototype.piece (type, x, y, color)`
-- `Game.prototype.moveSelected (selected, to, promotionCallback, checkmateCallback, playAgainstAI, simulate)`
+- `Game.prototype.moveSelected (selected, to, promotionCallback, checkmateCallback, simulate)`
 - `Game.prototype.promotePawn (pawn, x, y, color, type)`
 - `Game.prototype.simulateAndFilter (moves, piece)`
 - `Game.prototype.checkmate (color)`
@@ -67,6 +69,9 @@ game.moveSelected(
 - `game.turn`
 - `game.threefold`
 - `game.FEN` and `game.FENboard`
+
+#### AI
+- The `ChessAI` constructor.
 
 ### Links
 - [API CDNs](https://github.com/RSG-Group/RSG-Chess-API/tree/master/cdn)
