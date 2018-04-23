@@ -384,7 +384,7 @@ Game.prototype.piece = function (type, x, y, color) {
 }
 
 Game.prototype.moveSelected = function (
-  selected, to, promotionCallback, checkmateCallback, playAgainstAI, simulate
+  selected, to, promotionCallback, checkmateCallback, simulate
 ) {
   var x = to.x
   var y = to.y
@@ -449,17 +449,9 @@ Game.prototype.moveSelected = function (
       if (this.halfmoveClock() >= 50) checkmateCallback('D')
 
       // check for pawn promotion
-      if (selected.type === 'pawn') {
+      if (selected.type === 'pawn' && y !== selected.y) {
         if ((selected.color === 'W' && y === 0) || (selected.color === 'B' && y === 7)) {
-          if (promotionCallback) {
-            if (playAgainstAI && !playAgainstAI.mode && playAgainstAI.comingAI && selected.color === 'B') {
-              playAgainstAI.customAIPromotion
-                ? playAgainstAI.customAIPromotion()
-                : this.promotePawn(selected, x, y, selected.color, 'queen')
-            } else {
-              promotionCallback(selected, x, y, selected.color)
-            }
-          }
+          if (promotionCallback) promotionCallback(selected, x, y, selected.color)
         }
       };
 
@@ -467,24 +459,9 @@ Game.prototype.moveSelected = function (
       var checkmateValue = this.checkmate(checkmateColor)
       if (checkmateValue) checkmateCallback(checkmateValue)
 
-      // Play AI
-      if (playAgainstAI && playAgainstAI.mode && playAgainstAI.move) {
-        if (playAgainstAI.customAIMovement) {
-          playAgainstAI.customAIMovement()
-        } else {
-          var bestMove = ChessAI(playAgainstAI.depth, this, false)
-          this.moveSelected(
-            this.board[bestMove.from.y][bestMove.from.x],
-            bestMove.to,
-            promotionCallback,
-            checkmateCallback,
-            false,
-            true,
-            simulate
-          )
-        }
-      }
-      // end
+      // // Play AI
+      // We decided to remove the AI movements from game.js, because this slows down your app
+      // and makes really hard to implement external chess sources like: web workers, backends, cloud functions, ect.
     }
     selected = null
     return true

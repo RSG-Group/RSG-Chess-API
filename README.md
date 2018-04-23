@@ -71,7 +71,7 @@ game.moveSelected(
 - `game.FEN` and `game.FENboard`
 
 #### AI
-- The `ChessAI` constructor.
+- The `ChessAI` method.
 
 ### Links
 - [API CDNs](https://github.com/RSG-Group/RSG-Chess-API/tree/master/cdn)
