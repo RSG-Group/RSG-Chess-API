@@ -449,7 +449,7 @@ Game.prototype.moveSelected = function (
       if (this.halfmoveClock() >= 50) checkmateCallback('D')
 
       // check for pawn promotion
-      if (selected.type === 'pawn' && y !== selected.y) {
+      if (selected.type === 'pawn') {
         if ((selected.color === 'W' && y === 0) || (selected.color === 'B' && y === 7)) {
           if (promotionCallback) promotionCallback(selected, x, y, selected.color)
         }
