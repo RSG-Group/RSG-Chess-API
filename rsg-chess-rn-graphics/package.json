@@ -1,0 +1,21 @@
+{
+  "name": "rsg-chess-rn-graphics",
+  "version": "0.0.1",
+  "description": "Beautiful chess graphics for React Native apps.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Chess",
+    "RSG",
+    "Chess",
+    "graphics",
+    "React",
+    "ReactJS",
+    "ReactNative",
+    "react-native"
+  ],
+  "author": "Radi Cho /RSG Group/",
+  "license": "Apache-2.0"
+}
