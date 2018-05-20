@@ -62,7 +62,10 @@ export default class ChessBoard extends Component<Props> {
                         find(validMoves, { x: j, y: i }) && {
                           backgroundColor: props.validBG
                         },
-                      selected && selected === cell && styles.selectedStyles
+                      selected &&
+                        selected === cell && {
+                          backgroundColor: props.selectedBG
+                        }
                     ]}
                   >
                     <Text

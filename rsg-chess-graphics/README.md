@@ -1,15 +1,19 @@
 # RSG Chess Graphics API
+
 ### ReactJS based Chess graphics
 
 ## Installation
+
 ```
 npm install rsg-chess-graphics
 // or
 yarn add rsg-chess-graphics
 ```
-*Expect new RSG Chess Graphics API CDN for browser-level JavaScript
+
+\*Expect new RSG Chess Graphics API CDN for browser-level JavaScript
 
 ## Usage example
+
 ```
 // ES6
 import React from "react";
@@ -31,7 +35,10 @@ const App = () => {
 };
 ```
 
+> Check out the [`RSG Chess graphics API for ReactJS`](https://www.npmjs.com/package/rsg-chess-graphics)
+
 ## Props
+
 ```
   board: array, // game.board array (generated with rsg-chess-api) - required
   selected: object, // selected piece from the board (for example game.board[0][0])
