@@ -2,7 +2,7 @@
 // RSG Chess
 // Licensed under Apache 2.0 LICENSE
 
-import Game from './game.js'
+import Game from './game.js';
 
 const ChessAI = function (depth, gameState, isMaximisingPlayer) {
   // Clone the gameState to access all game associated methods.
@@ -36,7 +36,13 @@ const ChessAI = function (depth, gameState, isMaximisingPlayer) {
   for (var i = 0; i < allMoves.length; i++) {
     var newGameMove = allMoves[i]
     var undo = game.simpleMove(newGameMove)
-    var boradValue = minimax(depth - 1, game, -10000, 10000, !isMaximisingPlayer)
+    var boradValue = minimax(
+      depth - 1,
+      game,
+      -10000,
+      10000,
+      !isMaximisingPlayer
+    )
     undo()
     if (boradValue >= bestValue) {
       bestValue = boradValue
@@ -44,7 +50,7 @@ const ChessAI = function (depth, gameState, isMaximisingPlayer) {
     }
   }
   return bestMove
-}
+};
 
 var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
   if (depth === 0) {
@@ -56,7 +62,10 @@ var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     let bestValue = -9999
     for (let i = 0; i < allMoves.length; i++) {
       let undo = game.simpleMove(allMoves[i])
-      bestValue = Math.max(bestValue, minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer))
+      bestValue = Math.max(
+        bestValue,
+        minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer)
+      )
       undo()
       alpha = Math.max(alpha, bestValue)
       if (beta <= alpha) {
@@ -68,7 +77,10 @@ var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     let bestValue = 9999
     for (let i = 0; i < allMoves.length; i++) {
       let undo = game.simpleMove(allMoves[i])
-      bestValue = Math.min(bestValue, minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer))
+      bestValue = Math.min(
+        bestValue,
+        minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer)
+      )
       undo()
       beta = Math.min(beta, bestValue)
       if (beta <= alpha) {
@@ -91,6 +103,84 @@ var evaluateBoard = function (board) {
   return totalEvaluation
 }
 
+var reverseArray = function (array) {
+  return array.slice().reverse()
+}
+
+var pawnEvalWhite = [
+  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+  [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0],
+  [1.0, 1.0, 2.0, 3.0, 3.0, 2.0, 1.0, 1.0],
+  [0.5, 0.5, 1.0, 2.5, 2.5, 1.0, 0.5, 0.5],
+  [0.0, 0.0, 0.0, 2.0, 2.0, 0.0, 0.0, 0.0],
+  [0.5, -0.5, -1.0, 0.0, 0.0, -1.0, -0.5, 0.5],
+  [0.5, 1.0, 1.0, -2.0, -2.0, 1.0, 1.0, 0.5],
+  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+]
+
+var pawnEvalBlack = reverseArray(pawnEvalWhite)
+
+var knightEval = [
+  [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0],
+  [-4.0, -2.0, 0.0, 0.0, 0.0, 0.0, -2.0, -4.0],
+  [-3.0, 0.0, 1.0, 1.5, 1.5, 1.0, 0.0, -3.0],
+  [-3.0, 0.5, 1.5, 2.0, 2.0, 1.5, 0.5, -3.0],
+  [-3.0, 0.0, 1.5, 2.0, 2.0, 1.5, 0.0, -3.0],
+  [-3.0, 0.5, 1.0, 1.5, 1.5, 1.0, 0.5, -3.0],
+  [-4.0, -2.0, 0.0, 0.5, 0.5, 0.0, -2.0, -4.0],
+  [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0]
+]
+
+var bishopEvalWhite = [
+  [-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0],
+  [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0],
+  [-1.0, 0.0, 0.5, 1.0, 1.0, 0.5, 0.0, -1.0],
+  [-1.0, 0.5, 0.5, 1.0, 1.0, 0.5, 0.5, -1.0],
+  [-1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, -1.0],
+  [-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0],
+  [-1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, -1.0],
+  [-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0]
+]
+
+var bishopEvalBlack = reverseArray(bishopEvalWhite)
+
+var rookEvalWhite = [
+  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+  [0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0]
+]
+
+var rookEvalBlack = reverseArray(rookEvalWhite)
+
+var evalQueen = [
+  [-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0],
+  [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0],
+  [-1.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -1.0],
+  [-0.5, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -0.5],
+  [0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -0.5],
+  [-1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, -1.0],
+  [-1.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, -1.0],
+  [-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0]
+]
+
+var kingEvalWhite = [
+  [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [-2.0, -3.0, -3.0, -4.0, -4.0, -3.0, -3.0, -2.0],
+  [-1.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -1.0],
+  [2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0],
+  [2.0, 3.0, 1.0, 0.0, 0.0, 1.0, 3.0, 2.0]
+]
+
+var kingEvalBlack = reverseArray(kingEvalWhite)
+
 var getPieceValue = function (piece) {
   if (piece === null) {
     return 0
@@ -98,25 +188,28 @@ var getPieceValue = function (piece) {
 
   // get value for every piece on the board
   var getAbsoluteValue = function (piece) {
-    if (piece.type === 'pawn') {
-      return 10
-    } else if (piece.type === 'rook') {
-      return 50
-    } else if (piece.type === 'knight') {
-      return 30
-    } else if (piece.type === 'bishop') {
-      return 30
-    } else if (piece.type === 'queen') {
-      return 90
-    } else if (piece.type === 'king') {
-      return 900
+    const { color, type, x, y } = piece
+    const isWhite = color === 'W';
+
+    if (type === 'pawn') {
+      return 10 + (isWhite ? pawnEvalWhite[y][x] : pawnEvalBlack[y][x])
+    } else if (type === 'rook') {
+      return 50 + (isWhite ? rookEvalWhite[y][x] : rookEvalBlack[y][x])
+    } else if (type === 'knight') {
+      return 30 + knightEval[y][x]
+    } else if (type === 'bishop') {
+      return 30 + (isWhite ? bishopEvalWhite[y][x] : bishopEvalBlack[y][x])
+    } else if (type === 'queen') {
+      return 90 + evalQueen[y][x]
+    } else if (type === 'king') {
+      return 900 + (isWhite ? kingEvalWhite[y][x] : kingEvalBlack[y][x])
     }
   }
 
   // calculate the absolute value and return it
-  var absoluteValue = getAbsoluteValue(piece, piece.color === 'W')
+  var absoluteValue = getAbsoluteValue(piece)
   return piece.color === 'W' ? absoluteValue : -absoluteValue
-}
+};
 
 // export the algorithm
 export default ChessAI
