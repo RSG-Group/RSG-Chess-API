@@ -1,6 +1,6 @@
 {
   "name": "rsg-chess-rn-graphics",
-  "version": "0.0.2",
+  "version": "1.1.0-alpha.1",
   "description": "Beautiful chess graphics for React Native apps.",
   "main": "index.js",
   "scripts": {
