@@ -20,6 +20,7 @@ type Props = {
   whiteCells?: string,
   blackCells?: string,
   selectedBG?: string,
+  selectedColor?: string,
   boardHeight?: number,
   boardWidth?: number,
   pieceSize?: number,
@@ -77,7 +78,10 @@ export default class ChessBoard extends Component<Props> {
                         rotated &&
                           cell &&
                           cell.color === "B" &&
-                          styles.rotatedStyles
+                          styles.rotatedStyles,
+                        selected && {
+                          color: props.selectedColor
+                        }
                       ]}
                     >
                       {cell && cell.char}
@@ -127,6 +131,7 @@ ChessBoard.defaultProps = {
   whiteCells: "rgb(255, 205, 160)",
   blackCells: "rgb(210, 140, 70)",
   selectedBG: "brown",
+  selectedColor: "lightblue",
   boardHeight: 50,
   boardWidth: 50,
   pieceSize: 38,
