@@ -79,9 +79,10 @@ export default class ChessBoard extends Component<Props> {
                           cell &&
                           cell.color === "B" &&
                           styles.rotatedStyles,
-                        selected && {
-                          color: props.selectedColor
-                        }
+                        selected &&
+                          selected === cell && {
+                            color: props.selectedColor
+                          }
                       ]}
                     >
                       {cell && cell.char}
