@@ -897,6 +897,117 @@ var evaluateBoard = function (board) {
   return totalEvaluation
 }
 
+var reverseArray = function (array) {
+  return array.slice().reverse()
+}
+
+var pawnEvalWhite = [
+  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+  [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0],
+  [1.0, 1.0, 2.0, 3.0, 3.0, 2.0, 1.0, 1.0],
+  [0.5, 0.5, 1.0, 2.5, 2.5, 1.0, 0.5, 0.5],
+  [0.0, 0.0, 0.0, 2.0, 2.0, 0.0, 0.0, 0.0],
+  [0.5, -0.5, -1.0, 0.0, 0.0, -1.0, -0.5, 0.5],
+  [0.5, 1.0, 1.0, -2.0, -2.0, 1.0, 1.0, 0.5],
+  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+]
+
+var pawnEvalBlack = reverseArray(pawnEvalWhite)
+
+var knightEval = [
+  [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0],
+  [-4.0, -2.0, 0.0, 0.0, 0.0, 0.0, -2.0, -4.0],
+  [-3.0, 0.0, 1.0, 1.5, 1.5, 1.0, 0.0, -3.0],
+  [-3.0, 0.5, 1.5, 2.0, 2.0, 1.5, 0.5, -3.0],
+  [-3.0, 0.0, 1.5, 2.0, 2.0, 1.5, 0.0, -3.0],
+  [-3.0, 0.5, 1.0, 1.5, 1.5, 1.0, 0.5, -3.0],
+  [-4.0, -2.0, 0.0, 0.5, 0.5, 0.0, -2.0, -4.0],
+  [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0]
+]
+
+var bishopEvalWhite = [
+  [-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0],
+  [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0],
+  [-1.0, 0.0, 0.5, 1.0, 1.0, 0.5, 0.0, -1.0],
+  [-1.0, 0.5, 0.5, 1.0, 1.0, 0.5, 0.5, -1.0],
+  [-1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, -1.0],
+  [-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0],
+  [-1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, -1.0],
+  [-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0]
+]
+
+var bishopEvalBlack = reverseArray(bishopEvalWhite)
+
+var rookEvalWhite = [
+  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+  [0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
+  [0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0]
+]
+
+var rookEvalBlack = reverseArray(rookEvalWhite)
+
+var evalQueen = [
+  [-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0],
+  [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0],
+  [-1.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -1.0],
+  [-0.5, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -0.5],
+  [0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -0.5],
+  [-1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, -1.0],
+  [-1.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, -1.0],
+  [-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0]
+]
+
+var kingEvalWhite = [
+  [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [-2.0, -3.0, -3.0, -4.0, -4.0, -3.0, -3.0, -2.0],
+  [-1.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -1.0],
+  [2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0],
+  [2.0, 3.0, 1.0, 0.0, 0.0, 1.0, 3.0, 2.0]
+]
+
+var kingEvalBlack = reverseArray(kingEvalWhite)
+
+var getPieceValue = function (piece) {
+  if (piece === null) {
+    return 0
+  }
+
+  // get value for every piece on the board
+  var getAbsoluteValue = function (piece) {
+    var color = piece.color;
+    var type = piece.type;
+    var x = piece.x;
+    var y = piece.y;
+    var isWhite = color === 'W';
+
+    if (type === 'pawn') {
+      return 10 + (isWhite ? pawnEvalWhite[y][x] : pawnEvalBlack[y][x])
+    } else if (type === 'rook') {
+      return 50 + (isWhite ? rookEvalWhite[y][x] : rookEvalBlack[y][x])
+    } else if (type === 'knight') {
+      return 30 + knightEval[y][x]
+    } else if (type === 'bishop') {
+      return 30 + (isWhite ? bishopEvalWhite[y][x] : bishopEvalBlack[y][x])
+    } else if (type === 'queen') {
+      return 90 + evalQueen[y][x]
+    } else if (type === 'king') {
+      return 900 + (isWhite ? kingEvalWhite[y][x] : kingEvalBlack[y][x])
+    }
+  }
+
+  // calculate the absolute value and return it
+  var absoluteValue = getAbsoluteValue(piece)
+  return piece.color === 'W' ? absoluteValue : -absoluteValue
+};
+
 var getPieceValue = function (piece) {
   if (piece === null) {
     return 0
@@ -924,6 +1035,93 @@ var getPieceValue = function (piece) {
   return piece.color === 'W' ? absoluteValue : -absoluteValue
 }
 
+var uncycleBoard = function(boardObject)  {
+  var board = []
+
+  for (var i = 0; i < boardObject.length; i++) {
+    var row = []
+    for (var j = 0; j < boardObject[i].length; j++) {
+      if (boardObject[i][j]) {
+        row.push({
+          char: boardObject[i][j].char,
+          color: boardObject[i][j].color,
+          x: boardObject[i][j].x,
+          y: boardObject[i][j].y,
+          type: boardObject[i][j].type,
+          FENname: boardObject[i][j].FENname
+        })
+      } else {
+        row.push(null)
+      }
+    }
+    board.push(row)
+  }
+
+  return board
+}
+
+var uncycleTurns = function (turnObject) {
+  var turns = []
+
+  turnObject.map(function(ev)  {
+    var move = {}
+    move.from = ev.from
+    move.to = ev.to
+    move.color = ev.color
+    move.type = ev.type
+    move.piece = null
+    move.movePiece = null
+    if (ev.piece) {
+      move.piece = {
+        char: ev.piece.char,
+        color: ev.piece.color,
+        x: ev.piece.x,
+        y: ev.piece.y,
+        type: ev.piece.type,
+        FENname: ev.piece.FENname
+      }
+    }
+
+    if (ev.movePiece) {
+      move.movePiece = uncycleMovePiece(ev.movePiece);
+    }
+
+    turns.push(move)
+  })
+
+  return turns
+}
+
+var uncycleMovePiece = function (movePiece) {
+  var newMovePiece = {
+    from: movePiece.from,
+    to: movePiece.to,
+    piece: {
+      char: movePiece.piece.char,
+      color: movePiece.piece.color,
+      x: movePiece.piece.x,
+      y: movePiece.piece.y,
+      type: movePiece.piece.type,
+      FENname: movePiece.piece.FENname
+    }
+  }
+
+  return newMovePiece;
+}
+
+var stringifyBoard = function (board) {
+  var uncycled = uncycleBoard(board)
+  var stringified = JSON.stringify(uncycled)
+  return stringified
+}
+
+var stringifyBoard = function (turn) {
+  var uncycled = uncycleTurns(turn)
+  var stringified = JSON.stringify(uncycled)
+  return stringified
+}
+
+
 window.RSGChess = {
   Game: Game,
   AI: ChessAI,
@@ -935,6 +1133,13 @@ window.RSGChess = {
     bishop: Piece.bishop,
     queen: Piece.queen,
     king: Piece.king
+  },
+  tools: {
+    uncycleBoard: uncycleBoard,
+    uncycleTurns: uncycleTurns,
+    uncycleMovePiece: uncycleMovePiece,
+    stringifyBoard: stringifyBoard,
+    stringifyBoard: stringifyBoard
   }
 }
 
