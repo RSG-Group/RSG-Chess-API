@@ -18,10 +18,9 @@ on serverless back-ends, such as the Google Cloud Functions and on frameworks fo
 ReactNative, NativeScript, Cordova, IONIC and much more
 - Experimental AI - Simple AI that returns the best valid move using `minimax` algorythm.
 - Great looking but simple to develop chess graphics based on basic HTML5 tables and CSS grids.
-- - Chess graphics for the web using [ReactJS](https://reactjs.org) -
+- - Chess graphics for the web using [ReactJS](https://reactjs.org) or for Cordova/[IONIC](https://ionicframework.com/) -
 [`NPM/rsg-chess-graphics`](https://www.npmjs.com/package/rsg-chess-graphics).
-- - Chess graphics for native mobile development using [React Native](https://facebook.github.io/react-native/) or
-[IONIC](https://ionicframework.com/) - [`NPM/rsg-chess-rn-graphics`](https://www.npmjs.com/package/rsg-chess-rn-graphics).
+- - Chess graphics for native mobile development using [React Native](https://facebook.github.io/react-native/) - [`NPM/rsg-chess-rn-graphics`](https://www.npmjs.com/package/rsg-chess-rn-graphics).
 - Solutions for complex situations and tasks, such as transfering data to backends, using threads and workers.
 - - methods to improve the performance and speed of your chess app.
 - Easy methods to integrate third party chess libraries (such as `lichess api` or `Chess.js`) or your own functions.
