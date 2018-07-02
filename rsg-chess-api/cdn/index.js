@@ -388,6 +388,7 @@ Game.prototype.moveSelected = function (
 ) {
   var x = to.x
   var y = to.y
+  var result = {}  
 
   if (selected) {
     var from = { x: selected.x, y: selected.y }
@@ -451,20 +452,27 @@ Game.prototype.moveSelected = function (
       // check for pawn promotion
       if (selected.type === 'pawn') {
         if ((selected.color === 'W' && y === 0) || (selected.color === 'B' && y === 7)) {
-          if (promotionCallback) promotionCallback(selected, x, y, selected.color)
+          if (promotionCallback) {
+            result.promotion = true
+            promotionCallback(selected, x, y, selected.color)
+          }
         }
       };
 
       var checkmateColor = selected.color === 'W' ? 'B' : 'W'
       var checkmateValue = this.checkmate(checkmateColor)
-      if (checkmateValue) checkmateCallback(checkmateValue)
+      if (checkmateValue) {
+        result.checkmate = true
+        checkmateCallback(checkmateValue)
+      }
 
       // // Play AI
       // We decided to remove the AI movements from game.js, because this slows down your app
       // and makes really hard to implement external chess sources like: web workers, backends, cloud functions, ect.
     }
+
     selected = null
-    return true
+    return result
   }
 }
 
@@ -982,11 +990,11 @@ var getPieceValue = function (piece) {
 
   // get value for every piece on the board
   var getAbsoluteValue = function (piece) {
-    var color = piece.color;
-    var type = piece.type;
-    var x = piece.x;
-    var y = piece.y;
-    var isWhite = color === 'W';
+    var color = piece.color
+    var type = piece.type
+    var x = piece.x
+    var y = piece.y
+    var isWhite = color === 'W'
 
     if (type === 'pawn') {
       return 10 + (isWhite ? pawnEvalWhite[y][x] : pawnEvalBlack[y][x])
@@ -1006,36 +1014,9 @@ var getPieceValue = function (piece) {
   // calculate the absolute value and return it
   var absoluteValue = getAbsoluteValue(piece)
   return piece.color === 'W' ? absoluteValue : -absoluteValue
-};
-
-var getPieceValue = function (piece) {
-  if (piece === null) {
-    return 0
-  }
-
-  // get value for every piece on the board
-  var getAbsoluteValue = function (piece) {
-    if (piece.type === 'pawn') {
-      return 10
-    } else if (piece.type === 'rook') {
-      return 50
-    } else if (piece.type === 'knight') {
-      return 30
-    } else if (piece.type === 'bishop') {
-      return 30
-    } else if (piece.type === 'queen') {
-      return 90
-    } else if (piece.type === 'king') {
-      return 900
-    }
-  }
-
-  // calculate the absolute value and return it
-  var absoluteValue = getAbsoluteValue(piece, piece.color === 'W')
-  return piece.color === 'W' ? absoluteValue : -absoluteValue
 }
 
-var uncycleBoard = function(boardObject)  {
+var uncycleBoard = function (boardObject) {
   var board = []
 
   for (var i = 0; i < boardObject.length; i++) {
@@ -1063,7 +1044,7 @@ var uncycleBoard = function(boardObject)  {
 var uncycleTurns = function (turnObject) {
   var turns = []
 
-  turnObject.map(function(ev)  {
+  turnObject.map(function (ev) {
     var move = {}
     move.from = ev.from
     move.to = ev.to
@@ -1083,7 +1064,7 @@ var uncycleTurns = function (turnObject) {
     }
 
     if (ev.movePiece) {
-      move.movePiece = uncycleMovePiece(ev.movePiece);
+      move.movePiece = uncycleMovePiece(ev.movePiece)
     }
 
     turns.push(move)
@@ -1106,7 +1087,7 @@ var uncycleMovePiece = function (movePiece) {
     }
   }
 
-  return newMovePiece;
+  return newMovePiece
 }
 
 var stringifyBoard = function (board) {
@@ -1115,12 +1096,11 @@ var stringifyBoard = function (board) {
   return stringified
 }
 
-var stringifyBoard = function (turn) {
+var stringifyTurns = function (turn) {
   var uncycled = uncycleTurns(turn)
   var stringified = JSON.stringify(uncycled)
   return stringified
 }
-
 
 window.RSGChess = {
   Game: Game,
@@ -1139,7 +1119,7 @@ window.RSGChess = {
     uncycleTurns: uncycleTurns,
     uncycleMovePiece: uncycleMovePiece,
     stringifyBoard: stringifyBoard,
-    stringifyBoard: stringifyBoard
+    stringifyTurns: stringifyTurns
   }
 }
 
