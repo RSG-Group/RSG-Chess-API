@@ -6,7 +6,9 @@
   "scripts": {
     "build": "webpack -p",
     "test": "node ./lib/test.js",
-    "lint": "node_modules/.bin/eslint ./src/"
+    "lint": "node_modules/.bin/eslint ./src/",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -20,7 +22,8 @@
   "homepage": "https://github.com/RSG-Group/RSG-Chess-API#readme",
   "dependencies": {
     "lodash": "^4.17.4",
-    "webpack": "^3.12.0"
+    "webpack": "^3.12.0",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -45,5 +48,6 @@
     "AI",
     "API",
     "algorythm"
-  ]
+  ],
+  "snyk": true
 }
